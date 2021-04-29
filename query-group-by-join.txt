@@ -10,11 +10,9 @@ FROM `pagamenti`
 GROUP BY `status`;
 
 3) Conta quante volte è stata prenotata ogni stanza
-SELECT `stanze`.`room_number`, COUNT(`prenotazioni`.`id`) AS 'tot_prenotazioni'
+SELECT `stanza_id`, COUNT(`stanza_id`) AS 'tot_prenotazioni_stanza'
 FROM `prenotazioni`
-INNER JOIN `stanze`
-ON `prenotazioni`.`stanza_id` = `stanze`.`id`
-GROUP BY `stanze`.`room_number`;
+GROUP BY `stanza_id`;
 
 4) Fai una analisi per vedere se ci sono ore in cui le prenotazioni sono più frequenti
 SELECT HOUR(`created_at`), COUNT(`id`) AS'tot_prenotazioni' 
@@ -59,7 +57,7 @@ SELECT SUM(`pagamenti`.`price`) AS 'totale', `stanze`.`floor`
 FROM `prenotazioni` 
 INNER JOIN `stanze` 
 ON `prenotazioni`.`stanza_id` = `stanze`.`id`
-AND `stanze`.`floor` = 1
+WHERE `stanze`.`floor` = 1
 INNER JOIN `pagamenti`
 ON `pagamenti`.`prenotazione_id` = `prenotazioni`.`id`;
 
